@@ -16,15 +16,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'assignment', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for mod_php/
  *
- * @package   mod_assignment
- * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @package   mod_php
+ * @copyright 2015 Tomasz Muras  {@link https://leanpub.com/moodle}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['modulename'] = 'PHP';
-$string['modulename_help'] = 'PHP';
-$string['modulenameplural'] = 'PHP';
-$string['pluginname'] = 'PHP';
-$string['pluginadministration'] = 'PHP';
+$string['modulename'] = 'PHP assignment';
+$string['modulename_help'] = 'PHP assignment is an activity that will test student\'s PHP coding skills.';
+$string['modulenameplural'] = 'PHP assignments';
+$string['pluginname'] = 'PHP assignment';
+$string['pluginadministration'] = 'PHP assignment admin';
