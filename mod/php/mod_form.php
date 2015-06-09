@@ -18,7 +18,7 @@
  * This file contains the forms to create and edit an instance of this module
  *
  * @package   mod_assignment
- * @copyright 2007 Petr Skoda
+ * @copyright 2015 Tomasz Muras  {@link https://leanpub.com/moodle}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -15,12 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * assignment_base is the base class for assignment types
- *
- * This class provides all the functionality for an assignment
+ * API functions implementation for mod_php.
  *
  * @package   mod_php
- * @copyright 1999 onwards Martin Dougiamas  {@link http://moodle.com}
+ * @copyright 2015 Tomasz Muras  {@link https://leanpub.com/moodle}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
