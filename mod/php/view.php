@@ -25,7 +25,6 @@
 require_once("../../config.php");
 
 $id = required_param('id', PARAM_INT);  // Course Module ID.
-$name = optional_param('name', "anonymous", PARAM_TEXT);
 
 $urlparams = array('id' => $id, 'name' => $name);
 
@@ -37,5 +36,5 @@ $PAGE->set_url($url);
 
 
 echo $OUTPUT->header();
-echo $OUTPUT->notification("Hello Module World, my name is $name.",'notifysuccess');
+echo $OUTPUT->notification("This is PHP assignment. Stay tuned!",'notifysuccess');
 echo $OUTPUT->footer();
