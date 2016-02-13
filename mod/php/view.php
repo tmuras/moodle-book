@@ -26,7 +26,7 @@ require_once("../../config.php");
 
 $id = required_param('id', PARAM_INT);  // Course Module ID.
 
-$urlparams = array('id' => $id, 'name' => $name);
+$urlparams = array('id' => $id);
 
 $url = new moodle_url('/mod/php/view.php', $urlparams);
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'php');
@@ -34,7 +34,24 @@ list ($course, $cm) = get_course_and_cm_from_cmid($id, 'php');
 require_login($course, true, $cm);
 $PAGE->set_url($url);
 
-
 echo $OUTPUT->header();
+
+$mform = new mod_php_submission_form();
+
+if ($mform->is_cancelled()) {
+    // form cancelled, redirect
+    redirect(new moodle_url('view.php',array()));
+    return;
+} else if (($data = $mform->get_data())) {
+    // form has been submitted
+    var_dump($data);
+} else {
+    // Form has not been submitted or there was an error
+    // Just display the form
+    $mform->set_data(array('id'=>$id));
+    $mform->display();
+}
+
+
 echo $OUTPUT->notification("This is PHP assignment. Stay tuned!",'notifysuccess');
 echo $OUTPUT->footer();
