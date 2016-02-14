@@ -69,11 +69,17 @@ class mod_php_submission_form extends moodleform
 
     function validation($data, $files)
     {
+        global $USER;
+
         $errors = parent::validation($data, $files);
 
+        $usercontext = context_user::instance($USER->id);
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($usercontext->id, 'user', 'draft', $data['attachment_filemanager']);
+        
         // Make sure that either file or pasted code was submitted.
-        if ((!empty($data['content_editor']) && count($files) > 0) ||
-            (empty($data['content_editor']) && count($files) == 0)) {
+        if ((!empty($data['content_editor']) && count($files) > 1) ||
+            (empty($data['content_editor']) && count($files) <= 1)) {
             $errors['format_choice'] = 'Either submit a file or paste the code.';
         }
 
