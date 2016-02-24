@@ -33,9 +33,6 @@ class mod_php_submission_form extends moodleform
     {
         $mform = $this->_form;
 
-        //var_dump($mform); die();
-        // $current = $this->_customdata['current'];
-
         $mform->addElement('header', 'general', "Title header");
 
         $mform->addElement('text', 'title', "Title");
@@ -52,7 +49,7 @@ class mod_php_submission_form extends moodleform
         $mform->setType('content_editor', PARAM_RAW);
         $mform->disabledIf('content_editor', 'format_choice', 'noteq', '0');
 
-        $mform->addElement('static', 'filemanagerinfo', "Instead of pasting the code, you can choose ".
+        $mform->addElement('static', 'filemanagerinfo', "Instead of pasting the code, you can choose " .
             "'file' format and attach a file below.");
 
         $mform->addElement('filemanager', 'attachment_filemanager', "Upload file here");
@@ -61,10 +58,7 @@ class mod_php_submission_form extends moodleform
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
-
         $this->add_action_buttons();
-
-       // $this->set_data($current);
     }
 
     function validation($data, $files)
@@ -74,15 +68,19 @@ class mod_php_submission_form extends moodleform
         $errors = parent::validation($data, $files);
 
         $usercontext = context_user::instance($USER->id);
-        $fs = get_file_storage();
-        $files = $fs->get_area_files($usercontext->id, 'user', 'draft', $data['attachment_filemanager']);
-        
+        $files = array();
+        if (isset($data['attachment_filemanager'])) {
+            $fs = get_file_storage();
+            $files = $fs->get_area_files($usercontext->id, 'user', 'draft', $data['attachment_filemanager']);
+        }
+
         // Make sure that either file or pasted code was submitted.
         if ((!empty($data['content_editor']) && count($files) > 1) ||
-            (empty($data['content_editor']) && count($files) <= 1)) {
+            (empty($data['content_editor']) && count($files) <= 1)
+        ) {
             $errors['format_choice'] = 'Either submit a file or paste the code.';
         }
 
         return $errors;
-        }
     }
+}
