@@ -23,6 +23,7 @@
  */
 
 require_once("../../config.php");
+require_once($CFG->dirroot . '/mod/php/locallib.php');
 
 $id = required_param('id', PARAM_INT);  // Course Module ID.
 
@@ -37,21 +38,27 @@ $PAGE->set_url($url);
 echo $OUTPUT->header();
 
 $mform = new mod_php_submission_form();
-
+$submission = mod_php_get_my_submission();
 if ($mform->is_cancelled()) {
-    // form cancelled, redirect
-    redirect(new moodle_url('view.php',array()));
+    // Form cancelled, redirect.
+    redirect(new moodle_url('view.php', array()));
     return;
 } else if (($data = $mform->get_data())) {
-    // form has been submitted
-    var_dump($data);
+    // Form has been submitted.
+    $draftitemid = file_get_submitted_draft_itemid('attachment_filemanager');
+    file_save_draft_area_files($draftitemid, $cm->context->id, 'mod_php', 'submission', 0);
+    mod_php_save_submission($data);
 } else {
-    // Form has not been submitted or there was an error
-    // Just display the form
-    $mform->set_data(array('id'=>$id));
+    // Form has not been submitted or there was an error, just display.
+    $mform->set_data(array('id' => $id));
+    if ($submission) {
+        $draftitemid = 0;
+        file_prepare_draft_area($draftitemid, $cm->context->id, 'mod_php', 'submission', 0);
+        $mform->set_data(array('content_editor' => $submission->code,
+            'title' => $submission->title, 'attachment_filemanager' => $draftitemid));
+    }
     $mform->display();
 }
 
-
-echo $OUTPUT->notification("This is PHP assignment. Stay tuned!",'notifysuccess');
+echo $OUTPUT->notification("This is PHP assignment. Stay tuned!", 'notifysuccess');
 echo $OUTPUT->footer();
