@@ -3,7 +3,8 @@
  * Persist $submission in DB.
  */
 function mod_php_save_submission($submission) {
-
+    global $DB;
+    // $DB->insert_record('')
 }
 
 /**
@@ -11,11 +12,9 @@ function mod_php_save_submission($submission) {
  * @return stdClass
  */
 function mod_php_get_my_submission() {
-    $ret = new stdClass();
-    $ret->id = 1;
-    $ret->userid = 2;
-    $ret->code = "echo 'Hello world';";
-    $ret->title = "Sample title";
+    global $DB, $USER;
 
-    return $ret;
+    $submission = $DB->get_records('php_submissions',array());
+
+    return $submission;
 }

@@ -31,6 +31,7 @@ $urlparams = array('id' => $id);
 
 $url = new moodle_url('/mod/php/view.php', $urlparams);
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'php');
+$phpid = $cm->instance;
 
 require_login($course, true, $cm);
 $PAGE->set_url($url);
@@ -38,7 +39,7 @@ $PAGE->set_url($url);
 echo $OUTPUT->header();
 
 $mform = new mod_php_submission_form();
-$submission = mod_php_get_my_submission();
+$submission = mod_php_get_my_submission($phpid);
 if ($mform->is_cancelled()) {
     // Form cancelled, redirect.
     redirect(new moodle_url('view.php', array()));
