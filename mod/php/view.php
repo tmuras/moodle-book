@@ -48,6 +48,8 @@ if ($mform->is_cancelled()) {
     // Form has been submitted.
     $draftitemid = file_get_submitted_draft_itemid('attachment_filemanager');
     file_save_draft_area_files($draftitemid, $cm->context->id, 'mod_php', 'submission', 0);
+    $data->phpid = $phpid;
+    $data->code = $data->content_editor;
     mod_php_save_submission($data);
 } else {
     // Form has not been submitted or there was an error, just display.
