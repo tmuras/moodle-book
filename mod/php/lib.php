@@ -37,3 +37,30 @@ function php_add_instance($data, $mform) {
 
     return $DB->insert_record('php', $data);
 }
+
+/**
+ * Given an object containing all the necessary data,
+ * (defined by the form in mod_form.php) this function
+ * will update an existing instance with new data.
+ *
+ * @global object
+ * @param object $php
+ * @return bool
+ */
+function php_update_instance($php) {
+    global $DB;
+
+    $php->id = $php->instance;
+    $php->timemodified = time();
+
+    return $DB->update_record("php", $php);
+}
+
+
+function php_supports($feature) {
+    switch($feature) {
+        case FEATURE_MOD_INTRO:               return false;
+
+        default: return null;
+    }
+}
