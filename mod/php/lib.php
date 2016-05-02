@@ -57,10 +57,19 @@ function php_update_instance($php) {
 }
 
 
+/**
+ * Return the list of Moodle features this module supports.
+ *
+ * @param string $feature FEATURE_xx constant for requested feature
+ * @return mixed True if module supports feature, null if doesn't know
+ */
 function php_supports($feature) {
     switch($feature) {
-        case FEATURE_MOD_INTRO:               return false;
-
-        default: return null;
+        case FEATURE_MOD_INTRO:
+            return false;
+        case FEATURE_GRADE_HAS_GRADE:
+            return true;
+        default:
+            return null;
     }
 }
