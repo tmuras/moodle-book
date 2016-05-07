@@ -35,7 +35,12 @@ function php_add_instance($data, $mform) {
     $data->timecreated = time();
     $data->timemodified = $data->timecreated;
 
-    return $DB->insert_record('php', $data);
+    $data->id = $DB->insert_record('php', $data);
+
+    // Update grade item definition.
+    php_grade_item_update($data);
+
+    return $data->id;
 }
 
 /**
@@ -53,7 +58,15 @@ function php_update_instance($php) {
     $php->id = $php->instance;
     $php->timemodified = time();
 
-    return $DB->update_record("php", $php);
+    $DB->update_record("php", $php);
+
+    // Update grade item definition.
+    php_grade_item_update($php);
+
+    // Update grades.
+    php_update_grades($php, 0, false);
+
+    return true;
 }
 
 
@@ -72,4 +85,24 @@ function php_supports($feature) {
         default:
             return null;
     }
+}
+
+function php_grade_item_update($php, $grades=null)
+{
+    $params['gradetype']  = GRADE_TYPE_VALUE;
+    $params['grademax']   = 100;
+    $params['grademin']   = 0;
+    return grade_update('mod/php', $php->course, 'mod', 'php', $php->id, 0, $grades, $params);
+}
+
+/**
+ * Update grades in central gradebook
+ *
+ * @category grade
+ * @param object $php
+ * @param int $userid specific user only, 0 means all
+ * @param bool $nullifnone
+ */
+function php_update_grades($php, $userid=0, $nullifnone=true) {
+    php_grade_item_update($php);
 }
