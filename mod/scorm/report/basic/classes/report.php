@@ -246,7 +246,8 @@ class report extends \mod_scorm\report {
                 $format->set_bold(0);
                 $formatbc = $workbook->add_format();
                 $formatbc->set_bold(1);
-                $formatbc->set_align('center');
+                $formatbc->set_align('center');e preferences
+
                 $formatb = $workbook->add_format();
                 $formatb->set_bold(1);
                 $formaty = $workbook->add_format();

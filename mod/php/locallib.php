@@ -22,3 +22,16 @@ function mod_php_get_my_submission($phpid) {
 
     return $submission;
 }
+
+
+/**
+ * Get PHP submission for the current user (if exists).
+ * @return stdClass
+ */
+function mod_php_gradable_submission($phpid) {
+    global $DB, $USER;
+
+    $submissions = $DB->get_records('php_submissions', array('phpid' => $phpid, 'timegraded' => NULL));
+
+    return $submissions;
+}

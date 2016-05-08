@@ -28,3 +28,4 @@ $string['modulename_help'] = 'PHP assignment is an activity that will test stude
 $string['modulenameplural'] = 'PHP assignments';
 $string['pluginname'] = 'PHP assignment';
 $string['pluginadministration'] = 'PHP assignment admin';
+$string['php:grade'] = 'Grade.';
