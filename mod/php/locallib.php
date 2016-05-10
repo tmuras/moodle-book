@@ -35,3 +35,27 @@ function mod_php_gradable_submission($phpid) {
 
     return $submissions;
 }
+
+/**
+ * Get list of enrolled students.
+ * @return stdClass
+ */
+function mod_php_students($context) {
+    global $DB;
+
+    $students = get_users_by_capability($context, array('mod/php:attempt'));
+
+    return $students;
+}
+
+/**
+ * Get current grade for a student in given PHP assignment.
+ * @return stdClass
+ */
+function mod_php_get_grade($phpid,$userid) {
+    global $DB;
+
+    $submission = $DB->get_record('php_submissions', array('phpid' => $phpid, 'userid' => $userid));
+
+    return $students;
+}

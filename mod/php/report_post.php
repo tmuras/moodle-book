@@ -24,52 +24,22 @@
 
 require_once("../../config.php");
 require_once($CFG->dirroot . '/mod/php/locallib.php');
-require_once($CFG->libdir . '/tablelib.php');
 
 $id = required_param('id', PARAM_INT);  // Course Module ID.
 
-$urlparams = array('id' => $id);
-
-$url = new moodle_url('/mod/php/report.php', $urlparams);
 list ($course, $cm) = get_course_and_cm_from_cmid($id, 'php');
 $phpid = $cm->instance;
 
 require_login($course, true, $cm);
 require_capability("mod/php:grade",$cm->context);
 
-$PAGE->set_url($url);
+var_dump(mod_php_students($cm->context));
+var_dump($_POST);
 
-$table = new \flexible_table('mod-php-grading');
+// Get list of all expected user IDs.
 
-$columns = array();
-$headers = array();
+// Get a grade for each of them.
 
-$columns[] = 'fullname';
-$headers[] = get_string('name');
-$columns[] = 'grade';
-$headers[] = get_string('grade');
+// Update the database.
 
-$table->define_columns($columns);
-$table->define_headers($headers);
-$table->define_baseurl($PAGE->url);
-
-$students = mod_php_students($cm->context);
-    
-$tablehtml = '';
-ob_start();
-$table->setup();
-foreach($students as $student) {
-    $form = html_writer::tag('input', NULL, ['id' => 'grade_'.$student->id, 'type' => 'text', 'name' => 'grade_'.$student->id]);
-    $table->add_data([fullname($student), $form]);
-}
-$table->finish_output();
-
-$tablehtml = ob_get_contents();
-ob_clean();
-
-$form = new mod_php_grading_form('report_post.php',['html'=>$tablehtml,'cm'=>$id]);
-
-echo $OUTPUT->header();
-$form->display();
-var_dump($form->get_data());
-echo $OUTPUT->footer();
+// Redirect back to the grading page.
