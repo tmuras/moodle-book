@@ -23,6 +23,18 @@ function mod_php_get_my_submission($phpid) {
     return $submission;
 }
 
+/**
+ * Get PHP submission for the given user (if exists).
+ * @return stdClass
+ */
+function mod_php_get_user_submission($phpid, $userid) {
+    global $DB;
+
+    $submission = $DB->get_record('php_submissions', array('phpid' => $phpid, 'userid' => $userid));
+
+    return $submission;
+}
+
 
 /**
  * Get PHP submission for the current user (if exists).

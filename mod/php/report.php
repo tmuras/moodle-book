@@ -35,7 +35,7 @@ list ($course, $cm) = get_course_and_cm_from_cmid($id, 'php');
 $phpid = $cm->instance;
 
 require_login($course, true, $cm);
-require_capability("mod/php:grade",$cm->context);
+require_capability("mod/php:grade", $cm->context);
 
 $PAGE->set_url($url);
 
@@ -48,6 +48,8 @@ $columns[] = 'fullname';
 $headers[] = get_string('name');
 $columns[] = 'grade';
 $headers[] = get_string('grade');
+$columns[] = 'submission';
+$headers[] = '';
 
 $table->define_columns($columns);
 $table->define_headers($headers);
@@ -58,17 +60,24 @@ $students = mod_php_students($cm->context);
 $tablehtml = '';
 ob_start();
 $table->setup();
-foreach($students as $student) {
+foreach ($students as $student) {
     $grade = mod_php_get_grade($phpid, $student->id);
-    $form = html_writer::tag('input', NULL, ['id' => 'grade_'.$student->id, 'type' => 'text', 'name' => 'grade_'.$student->id, 'value'=>$grade]);
-    $table->add_data([fullname($student), $form]);
+    $form = html_writer::tag('input', NULL, ['id' => 'grade_' . $student->id, 'type' => 'text', 'name' => 'grade_' . $student->id, 'value' => $grade]);
+    $submissiontext = "Not submitted";
+    $submission = mod_php_get_user_submission($phpid, $student->id);
+    if ($submission) {
+
+        $url = new moodle_url("view_submission.php", array('id' => $cm->id, 'userid' => $student->id));
+        $submissiontext = "<a href='" . $url->out() . "'>View</a>";
+    }
+    $table->add_data([fullname($student), $form, $submissiontext]);
 }
 $table->finish_output();
 
 $tablehtml = ob_get_contents();
 ob_clean();
 
-$form = new mod_php_grading_form('report_post.php',['html'=>$tablehtml,'cm'=>$id]);
+$form = new mod_php_grading_form('report_post.php', ['html' => $tablehtml, 'cm' => $id]);
 
 echo $OUTPUT->header();
 $form->display();
