@@ -52,10 +52,30 @@ function mod_php_students($context) {
  * Get current grade for a student in given PHP assignment.
  * @return stdClass
  */
-function mod_php_get_grade($phpid,$userid) {
+function mod_php_get_grade($phpid, $userid) {
     global $DB;
 
     $submission = $DB->get_record('php_submissions', array('phpid' => $phpid, 'userid' => $userid));
 
-    return $students;
+    if($submission) {
+        return $submission->grade;
+    }
+
+    return NULL;
+}
+
+/**
+ * Set grade for a student in given PHP assignment.
+ * @return stdClass
+ */
+function mod_php_set_grade($phpid, $userid, $grade) {
+    global $DB;
+
+    $submission = $DB->get_record('php_submissions', array('phpid' => $phpid, 'userid' => $userid));
+    if($submission) {
+        $submission->timegraded = time();
+        $submission->grade = $grade;
+        $DB->update_record('php_submissions', $submission);
+    }
+    return $submission;
 }

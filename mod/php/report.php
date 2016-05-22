@@ -54,12 +54,13 @@ $table->define_headers($headers);
 $table->define_baseurl($PAGE->url);
 
 $students = mod_php_students($cm->context);
-    
+
 $tablehtml = '';
 ob_start();
 $table->setup();
 foreach($students as $student) {
-    $form = html_writer::tag('input', NULL, ['id' => 'grade_'.$student->id, 'type' => 'text', 'name' => 'grade_'.$student->id]);
+    $grade = mod_php_get_grade($phpid, $student->id);
+    $form = html_writer::tag('input', NULL, ['id' => 'grade_'.$student->id, 'type' => 'text', 'name' => 'grade_'.$student->id, 'value'=>$grade]);
     $table->add_data([fullname($student), $form]);
 }
 $table->finish_output();
@@ -71,5 +72,4 @@ $form = new mod_php_grading_form('report_post.php',['html'=>$tablehtml,'cm'=>$id
 
 echo $OUTPUT->header();
 $form->display();
-var_dump($form->get_data());
 echo $OUTPUT->footer();

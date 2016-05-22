@@ -33,13 +33,19 @@ $phpid = $cm->instance;
 require_login($course, true, $cm);
 require_capability("mod/php:grade",$cm->context);
 
-var_dump(mod_php_students($cm->context));
-var_dump($_POST);
-
 // Get list of all expected user IDs.
+$students = mod_php_students($cm->context);
 
 // Get a grade for each of them.
+$grades = array();
+foreach($students as $student) {
+    $grades[$student->id] = required_param('grade_' . $student->id, PARAM_INT);
+}
 
 // Update the database.
+foreach ($grades as $userid => $grade) {
+    mod_php_set_grade($phpid,$userid, $grade);
+}
 
 // Redirect back to the grading page.
+redirect($CFG->wwwroot . "/mod/php/report.php?id=$id");
