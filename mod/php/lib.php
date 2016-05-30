@@ -77,7 +77,7 @@ function php_update_instance($php) {
  * @return mixed True if module supports feature, null if doesn't know
  */
 function php_supports($feature) {
-    switch($feature) {
+    switch ($feature) {
         case FEATURE_MOD_INTRO:
             return false;
         case FEATURE_GRADE_HAS_GRADE:
@@ -87,11 +87,13 @@ function php_supports($feature) {
     }
 }
 
-function php_grade_item_update($php, $grades=null)
-{
-    $params['gradetype']  = GRADE_TYPE_VALUE;
-    $params['grademax']   = 100;
-    $params['grademin']   = 0;
+function php_grade_item_update($php, $grades = null) {
+    global $CFG;
+    require_once($CFG->libdir . '/gradelib.php');
+
+    $params['gradetype'] = GRADE_TYPE_VALUE;
+    $params['grademax'] = 100;
+    $params['grademin'] = 0;
     return grade_update('mod/php', $php->course, 'mod', 'php', $php->id, 0, $grades, $params);
 }
 
@@ -103,6 +105,15 @@ function php_grade_item_update($php, $grades=null)
  * @param int $userid specific user only, 0 means all
  * @param bool $nullifnone
  */
-function php_update_grades($php, $userid=0, $nullifnone=true) {
-    php_grade_item_update($php);
+function php_update_grades($php, $userid = 0, $nullifnone = true) {
+    global $CFG, $DB;
+    require_once($CFG->libdir . '/gradelib.php');
+
+    $grades = null;
+    if ($userid) {
+        $grades = array();
+        $grade = mod_php_get_grade($php->id, $userid);
+        $grades[$userid] = ['userid' => $userid, 'rawgrade' => $grade];
+    }
+    php_grade_item_update($php, $grades);
 }
