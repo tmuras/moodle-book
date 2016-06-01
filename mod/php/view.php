@@ -47,7 +47,7 @@ if ($mform->is_cancelled()) {
 } else if (($data = $mform->get_data())) {
     // Form has been submitted.
     $draftitemid = file_get_submitted_draft_itemid('attachment_filemanager');
-    file_save_draft_area_files($draftitemid, $cm->context->id, 'mod_php', 'submission', 0);
+    file_save_draft_area_files($draftitemid, $cm->context->id, 'mod_php', 'submission', $USER->id);
     $data->phpid = $phpid;
     $data->code = $data->content_editor;
     mod_php_save_submission($data);
@@ -56,7 +56,7 @@ if ($mform->is_cancelled()) {
     $mform->set_data(array('id' => $id));
     if ($submission) {
         $draftitemid = 0;
-        file_prepare_draft_area($draftitemid, $cm->context->id, 'mod_php', 'submission', 0);
+        file_prepare_draft_area($draftitemid, $cm->context->id, 'mod_php', 'submission', $USER->id);
         $mform->set_data(array('content_editor' => $submission->code,
             'title' => $submission->title, 'attachment_filemanager' => $draftitemid));
     }
