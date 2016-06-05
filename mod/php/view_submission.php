@@ -53,11 +53,11 @@ if($submission) {
 
     $file = mod_php_get_user_file($cm->context->id, $userid);
 
-    $path = '/'.$cm->context->id.'/mod_php/submission/'.$userid.'/'.$file->get_filename();
-    $fullurl = moodle_url::make_file_url('/pluginfile.php', $path);
+    if($file) {
+        $url = moodle_url::make_pluginfile_url($file->get_contextid(), $file->get_component(), $file->get_filearea(), $file->get_itemid(), $file->get_filepath(), $file->get_filename());
+        echo html_writer::link($url,"File download");
+    }
 
-    
-    echo $fullurl->
     echo "<pre>" . $submission->code . "</pre>";
 }
 echo $OUTPUT->footer();

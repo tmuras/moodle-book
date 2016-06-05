@@ -107,3 +107,5 @@ function mod_php_set_grade($phpid, $userid, $grade) {
     }
     return $submission;
 }
+
+
