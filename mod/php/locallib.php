@@ -35,6 +35,22 @@ function mod_php_get_user_submission($phpid, $userid) {
     return $submission;
 }
 
+/**
+ * Get submitted file.
+ * @return stdClass
+ */
+function mod_php_get_user_file($contextid, $userid) {
+    global $DB;
+
+    $fs = get_file_storage();
+    $files = $fs->get_area_files($contextid, 'mod_php', 'submission', $userid, NULL, false);
+
+    if(!$files) {
+        return false;
+    }
+
+    return current($files);
+}
 
 /**
  * Get PHP submission for the current user (if exists).

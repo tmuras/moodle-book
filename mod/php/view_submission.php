@@ -51,7 +51,13 @@ if($submission) {
         echo "Graded: ". $submission->grade . " on " . userdate($submission->timegraded) . "<br/>";
     }
 
-    // Only dislpay code submitted in the form, we do not know how to handle files yet.
+    $file = mod_php_get_user_file($cm->context->id, $userid);
+
+    $path = '/'.$cm->context->id.'/mod_php/submission/'.$userid.'/'.$file->get_filename();
+    $fullurl = moodle_url::make_file_url('/pluginfile.php', $path);
+
+    
+    echo $fullurl->
     echo "<pre>" . $submission->code . "</pre>";
 }
 echo $OUTPUT->footer();
