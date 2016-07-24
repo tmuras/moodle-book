@@ -102,8 +102,22 @@ function mod_php_set_grade($phpid, $userid, $grade) {
     $submission = $DB->get_record('php_submissions', array('phpid' => $phpid, 'userid' => $userid));
     if($submission) {
         $submission->timegraded = time();
-        $submission->grade = $grade;
-        $DB->update_record('php_submissions', $submission);
+        if($submission->grade != $grade) {
+            $submission->grade = $grade;
+            $DB->update_record('php_submissions', $submission);
+
+            $php = $DB->get_record('php', array('id' => $phpid));
+            $cm = get_coursemodule_from_instance('php',$phpid);
+            $context = context_module::instance($cm->id);
+            $data = array(
+                'context' => $context,
+                'objectid' => $userid,
+                'relateduserid' => $userid
+            );
+            $event = \mod_php\event\submission_graded::create($data);
+            $event->add_record_snapshot('php_submissions', $submission);
+            $event->trigger();
+        }
     }
     return $submission;
 }

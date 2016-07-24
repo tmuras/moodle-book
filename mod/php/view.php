@@ -36,6 +36,12 @@ $phpid = $cm->instance;
 require_login($course, true, $cm);
 $PAGE->set_url($url);
 
+$event = \mod_php\event\course_module_viewed::create(array(
+    'objectid' => $PAGE->cm->instance,
+    'context' => $PAGE->context,
+));
+$event->trigger();
+
 echo $OUTPUT->header();
 
 $mform = new mod_php_submission_form();

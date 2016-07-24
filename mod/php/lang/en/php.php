@@ -29,3 +29,4 @@ $string['modulenameplural'] = 'PHP assignments';
 $string['pluginname'] = 'PHP assignment';
 $string['pluginadministration'] = 'PHP assignment admin';
 $string['php:grade'] = 'Grade.';
+$string['eventsubmissiongraded'] = 'PHP submission graded';
