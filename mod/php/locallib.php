@@ -115,4 +115,12 @@ function mod_php_set_grade($phpid, $userid, $grade) {
     return $submission;
 }
 
+/**
+ * Automated check if the code submitted is correct.
+ * @return boolean
+ */
+function mod_php_check_submission($submission) {
+    // We don't actually execute any logic - we assume all submissions are wrong!
+    return false;
+}
 
