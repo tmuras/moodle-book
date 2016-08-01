@@ -5,10 +5,17 @@
 function mod_php_save_submission($submission) {
     global $DB, $USER;
 
-    $submission->userid = $USER->id;
-    $submission->timecreated = time();
+    // Check if there is an existing one.
+    $existing = mod_php_get_my_submission($submission->phpid);
+    if($existing) {
+        $submission->id = $existing->id;
+        return $DB->update_record('php_submissions',$submission);
+    } else {
+        $submission->userid = $USER->id;
+        $submission->timecreated = time();
 
-    return $DB->insert_record('php_submissions',$submission);
+        return $DB->insert_record('php_submissions',$submission);
+    }
 }
 
 /**
