@@ -84,6 +84,8 @@ function php_supports($feature) {
             return true;
         case FEATURE_BACKUP_MOODLE2:
             return true;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return true;
         default:
             return null;
     }
@@ -159,4 +161,15 @@ function mod_php_pluginfile($course, $cm, $context, $filearea, $args, $forcedown
 
     // We can now send the file back to the browser - in this case with a cache lifetime of 1 day and no filtering.
     send_stored_file($file, 86400, 0, $forcedownload, $options);
+}
+
+function php_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $node) {
+    global $PAGE;
+
+    $params = $PAGE->url->params();
+
+    if (!empty($params['id']) and has_capability('mod/php:grade', $PAGE->cm->context)) {
+        $url = new moodle_url('/mod/php/report.php', array('id' => $params['id']));
+        $node->add("Report", $url, navigation_node::TYPE_SETTING);
+    }
 }

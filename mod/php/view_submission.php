@@ -45,10 +45,13 @@ require_capability("mod/php:grade",$cm->context);
 echo $OUTPUT->header();
 $submission = mod_php_get_user_submission($phpid, $userid);
 if($submission) {
-    echo "PHP submission ".  $submission->title . "<br/>";
-    echo "Submitted on  ". userdate($submission->timecreated) . "<br/>";
+    echo get_string('phpsubmission','php', $submission->title) . "<br/>";
+    echo get_string('submittedon','php', userdate($submission->timecreated)) . "<br/>";
     if($submission->timegraded) {
-        echo "Graded: ". $submission->grade . " on " . userdate($submission->timegraded) . "<br/>";
+        $a = new stdClass();
+        $a->grade = $submission->grade;
+        $a->timegraded = userdate($submission->timegraded);
+        echo get_string('gradedon','php', $a) . "<br/>";
     }
 
     $file = mod_php_get_user_file($cm->context->id, $userid);

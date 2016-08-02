@@ -36,6 +36,10 @@ $phpid = $cm->instance;
 require_login($course, true, $cm);
 $PAGE->set_url($url);
 
+// Mark as viewed.
+$completion = new completion_info($course);
+$completion->set_module_viewed($cm);
+
 echo $OUTPUT->header();
 
 $mform = new mod_php_submission_form();

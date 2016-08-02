@@ -16,16 +16,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for mod_php/
+ * Strings for mod_php.
  *
  * @package   mod_php
- * @copyright 2015 Tomasz Muras  {@link https://leanpub.com/moodle}
+ * @copyright 2016 Tomasz Muras  {@link https://leanpub.com/moodle}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+$string['gradedon'] = 'Graded {$a->grade} on {$a->timegraded}';
 $string['modulename'] = 'PHP assignment';
 $string['modulename_help'] = 'PHP assignment is an activity that will test student\'s PHP coding skills.';
 $string['modulenameplural'] = 'PHP assignments';
 $string['pluginname'] = 'PHP assignment';
 $string['pluginadministration'] = 'PHP assignment admin';
 $string['php:grade'] = 'Grade.';
+$string['phpsubmission'] = 'PHP submission {$a}';
+$string['submittedon'] = 'Submitted on {$a}';
