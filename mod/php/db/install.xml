@@ -20,7 +20,7 @@
       </INDEXES>
     </TABLE>
 
-    <TABLE NAME="php_submissions" >
+    <TABLE NAME="php_submissions" COMMENT="PHP activity submissions">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="phpid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" />
